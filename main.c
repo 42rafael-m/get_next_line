@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     //char    *new_line3;
     int     fd;
 
-    fd = open("test1.txt", O_RDONLY);
+    fd = open("test.txt", O_RDONLY);
     /*new_line = get_next_line(fd);
     printf("PRINT = %s\n", new_line);
     free (new_line);
@@ -35,13 +35,14 @@ int main(int argc, char **argv)
     new_line3 = get_next_line(fd);
     printf("PRINT = %s\n", new_line3);
     free (new_line3);*/
-    while (i< 10)
+    while (i< 1000)
     {
         new_line = get_next_line(fd);
-        printf("PRINT = %s\n\n\n", new_line);
+        printf("%s", new_line);
         i++;
-        //free (new_line);
+        free (new_line);
+        new_line = NULL;
     }
-    free (new_line);
+    //free (new_line);
     close(fd);
 }
