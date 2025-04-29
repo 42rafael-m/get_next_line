@@ -35,10 +35,7 @@ char    *get_next_line(int fd)
     line = NULL;
     prueba++;
     //printf ("prueba = %d\n", prueba);
-    printf ("start = %sFIN\n", start);
-    buffer = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-    if (!buffer || fd < 0)
-        return (NULL);
+    //printf ("start = %sFIN\n", start);
     if (start)
     {    
         while (start[start_len] && start_len < BUFFER_SIZE)
@@ -50,8 +47,8 @@ char    *get_next_line(int fd)
                 line[start_len] = '\0';
                 //printf("line = %s\n", line);
                 //printf("start = %p\n", start);
-                start = ft_swap_free_sub_str(start, start_len);
-                //printf("start = %p\n", start);
+                start = ft_swap_free_sub_str(start, start_len + 1);
+                printf("start = %p\n", start);
                 return (line);
             }
             //printf("start[] = %c\n", start[start_len]);
@@ -64,6 +61,9 @@ char    *get_next_line(int fd)
             start = NULL;
         }
     }
+    buffer = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+    if (!buffer || fd < 0)
+        return (NULL);
     size = read (fd, buffer, BUFFER_SIZE);   
     if (size <= 0)
     {
@@ -98,7 +98,11 @@ char    *get_next_line(int fd)
                 //printf ("start = %p\n", start);
                 buffer[buff_len] = '\0';
 //                printf ("buffer = %s\n", buffer);
-                line = ft_strdup(buffer);               
+                printf ("buffer = %s\n", buffer);
+                printf ("buffer = %p\n", buffer);
+                line = ft_strdup(buffer);
+                free (buffer);
+                printf ("line = %p\n", line);
 //                printf("line before return = %s\n", line);
                 return (line);
             }
