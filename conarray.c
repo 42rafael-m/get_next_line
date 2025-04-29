@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   conarray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafael-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:33:50 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/04/27 15:33:52 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:28:49 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ char    *get_next_line(int fd)
 {
     
     ssize_t size;
-    char    *buffer;
+    char    buffer[BUFFER_SIZE + 1];
     size_t    line_len;
     char    *line;
     static char *start;
-    int buff_len;
+    int buff_pos;
     size_t start_len;
     char    *temp;
 
     start_len = 0;
-    buff_len = 0;
+    buff_pos = 0;
     line = NULL;
     if (start)
     {    
@@ -38,8 +38,9 @@ char    *get_next_line(int fd)
             if (start[start_len] == '\n')
             {   
                 line = ft_strdup(start);
-                line[start_len] = '\0';
+                line[start_len +  1] = '\0';
                 start = ft_swap_free_sub_str(start, start_len + 1);
+                printf("start at the beginning of ft = %sFIN\n", start);
                 if (*start == '\0')
                     free (start);
                 if (!(start))
@@ -58,65 +59,55 @@ char    *get_next_line(int fd)
             start = NULL;
         }
     }
-    buffer = (char *)ft_calloc((BUFFER_SIZE), sizeof(char));
-    if (!buffer || fd < 0)
-        return (NULL);
     size = read (fd, buffer, BUFFER_SIZE);
-    //printf ("size = %lu\n", size);
-    printf ("buffer = %sFIN\n", buffer);   
+    buffer[BUFFER_SIZE] = '\0';
+    printf ("buffer = %s\n", buffer);   
     if (size <= 0)
-    {
-        free(buffer);
         return (NULL);
-    }
     while (1)
     {
-        printf ("buff_len = %d\n", buff_len);
-        if(buff_len == size - 1)
+        printf ("buff_pos = %d\n", buff_pos);
+        //printf ("line = %s\n", line);
+        if (buffer[buff_pos] == '\n')
+        {
+            if (!line)
+            {
+                //printf ("buff_pos = %d\n", buff_pos);
+                start = ft_substr(buffer, buff_pos + 1, (sizeof(buffer) - buff_pos));
+                printf ("start = %s\n", start);
+                buffer[buff_pos + 1] = '\0';
+                printf ("buffer = %s\n", buffer);
+                //printf ("buffer = %p\n", buffer);
+                line = ft_strdup(buffer);
+                buff_pos = 0;
+                printf ("line buffer[buff_pos] == 'n' = %s\n", line);
+                return (line);
+            }
+            start = ft_substr(buffer, buff_pos, (sizeof(buffer) - (buff_pos)));
+            buffer[buff_pos + 1] = '\0';
+            printf ("buffer after nul = %s\n", buffer);
+            line = ft_strjoin(line, buffer);
+            printf("start = %sFIN\n", start);
+            return (line);     
+        }
+        if(buff_pos == size - 1)
         {
             if (!line)
                 line = ft_strdup(buffer);
             else
-                ft_strjoin(line, buffer);
-            printf("line = %sFIN\n", line);
+                line = ft_strjoin(line, buffer);
+            printf ("line  if buff_pos == size - 1 = %s\n", line);
             size = read(fd, buffer, BUFFER_SIZE);
+            printf ("buffer = %sFIN\n", buffer);
             if (size <= 0)
-            {
-                free(buffer);
                 return (NULL);
-            }
-            start = ft_substr(buffer, buff_len, ft_strlen(buffer) - buff_len);
-            buff_len = 0;
+            //start = ft_substr(buffer, buff_pos, ft_strlen(buffer) - buff_pos);
+            buff_pos = 0;
+            continue ;
             //printf ("start = %p\n", start);
             //printf ("buffer = %s\n", buffer);
         }
-        if (buffer[buff_len] == '\n')
-        {
-            if (!line)
-            {
-                //printf ("buff_len = %d\n", buff_len);
-                start = ft_substr(buffer, buff_len + 1, (ft_strlen(buffer) - buff_len));
-                //printf ("start = %p\n", start);
-                buffer[buff_len] = '\0';
-                //printf ("buffer = %s\n", buffer);
-                //printf ("buffer = %s\n", buffer);
-                //printf ("buffer = %p\n", buffer);
-                line = ft_strdup(buffer);
-                free (buffer);
-                buff_len = 0;
-                //printf ("line = %p\n", line);
-                //printf("line before return = %s\n", line);
-                return (line);
-            }
-            buffer[buff_len] = '\0';
-            line = ft_strjoin(line, buffer);
-            start = ft_substr(buffer, buff_len, (ft_strlen(buffer) - buff_len));
-            free (buffer);
-            printf("line before return = %s\n", line);
-            return (line);     
-        }
-        buff_len++;
+        buff_pos++;
     }
     return (NULL);
 }
-

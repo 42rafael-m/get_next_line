@@ -16,26 +16,32 @@
 int main(int argc, char **argv)
 {
     char    *new_line;
-    char    *new_line1;
-    char    *new_line2;
+    int i = 0;
+    //char    *new_line1;
+    //char    *new_line2;
+    //char    *new_line3;
     int     fd;
 
     fd = open("test1.txt", O_RDONLY);
-    new_line = get_next_line(fd);
-    printf("%s\n", new_line);
+    /*new_line = get_next_line(fd);
+    printf("PRINT = %s\n", new_line);
     free (new_line);
     new_line1 = get_next_line(fd);
-    printf("%s\n", new_line1);
+    printf("PRINT = %s\n", new_line1);
     free (new_line1);
     new_line2 = get_next_line(fd);
-    printf("%s\n", new_line2);
+    printf("PRINT = %s\n", new_line2);
     free (new_line2);
-/*    while (new_line)
+    new_line3 = get_next_line(fd);
+    printf("PRINT = %s\n", new_line3);
+    free (new_line3);*/
+    while (i< 10)
     {
-        printf("%s\n\n\n", new_line);
         new_line = get_next_line(fd);
-        free (new_line);
-    }*/
-    //free (new_line);
+        printf("PRINT = %s\n\n\n", new_line);
+        i++;
+        //free (new_line);
+    }
+    free (new_line);
     close(fd);
 }
