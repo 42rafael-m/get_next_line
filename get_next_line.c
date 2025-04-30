@@ -16,8 +16,6 @@
 #endif
 #include <stdio.h>
 
-/* De momento estamos comentando las comprobaciones de carácteres nulos */
-
 char    *ft_start(char *start, char *line)
 {
     size_t start_len;
@@ -31,6 +29,7 @@ char    *ft_start(char *start, char *line)
                 start = ft_swap_free_sub_str(start, start_len + 1);
                 if (*start == '\0')
                     free (start);
+                    //start = NULL;
                 if (!start)
                     return (NULL);
                 return (line);
@@ -51,13 +50,11 @@ char    *get_next_line(int fd)
     static char *start;
     int buff_pos;
     size_t start_len;
-    static int c;
 
     start_len = 0;
     buff_pos = 0;
     line = NULL;
-    c++;
-    printf("%d", c);
+
     if (start)
     {
         while (start[start_len] && start_len < BUFFER_SIZE)
@@ -89,7 +86,12 @@ char    *get_next_line(int fd)
     size = read (fd, buffer, BUFFER_SIZE);
     buffer[BUFFER_SIZE] = '\0';
     //printf("size = %zdFIN\n", size);
-    //printf("buffer = %sFIN\n", buffer);   
+    //printf("buffer = %sFIN\n", buffer);
+    if (size == 0 && line)
+    {
+            start = ft_strndup(line, ft_strlen(line));
+            return (free (line), line = NULL, start);
+    }
     if (size <= 0)
         return (NULL);
     while (1)
