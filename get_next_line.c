@@ -37,8 +37,8 @@ char    *get_next_line(int fd)
         {   
             if (start[start_len] == '\n')
             {   
-                line = ft_strdup(start);
-                line[start_len +  1] = '\0';
+                line = ft_strndup(start, start_len);
+                line[start_len + 1] = '\0';
                 start = ft_swap_free_sub_str(start, start_len + 1);
                 //printf("start at the beginning of ft = %sFIN\n", start);
                 if (*start == '\0')

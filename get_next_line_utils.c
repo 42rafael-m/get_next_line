@@ -198,3 +198,14 @@ char    *ft_swap_free_sub_str(char *str, size_t start)
         free (str);
         return (temp);
 }
+
+char    *ft_strndup(const char *src, size_t n)
+{
+        char            *dest;
+
+        dest = (char *)malloc((n + 1) * sizeof(char));
+        if (!dest)
+                return (NULL);
+        ft_strlcpy(dest, src, n + 1);
+        return (dest);
+}

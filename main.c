@@ -35,12 +35,12 @@ int main(int argc, char **argv)
     new_line3 = get_next_line(fd);
     printf("PRINT = %s\n", new_line3);
     free (new_line3);*/
-    while (i< 1000)
+    while (i< 100)
     {
         new_line = get_next_line(fd);
         printf("%s", new_line);
         i++;
-        free (new_line);
+       // free (new_line);
         new_line = NULL;
     }
     //free (new_line);
