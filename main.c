@@ -23,11 +23,11 @@ int main(int argc, char **argv)
     int i = 0;
     int     fd;
 
-    fd = open("test1.txt", O_RDONLY);
+    fd = open("test2.txt", O_RDONLY);
     while (i < LINES)
     {
         new_line = get_next_line(fd);
-        printf("%s", new_line);
+        printf("PRINT = %sFIN\n", new_line);
         i++;
         if (new_line)
             free (new_line);

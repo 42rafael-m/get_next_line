@@ -196,6 +196,7 @@ char    *ft_swap_free_sub_str(char *str, size_t start)
 
         temp = ft_substr(str, start, (ft_strlen(str) - start));
         free (str);
+        str = NULL;
         return (temp);
 }
 
