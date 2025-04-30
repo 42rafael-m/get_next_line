@@ -29,7 +29,8 @@ int main(int argc, char **argv)
         new_line = get_next_line(fd);
         printf("%s", new_line);
         i++;
-        free (new_line);
+        if (new_line)
+            free (new_line);
         new_line = NULL;
         /*new_line = get_next_line(fd);
         printf("%s", new_line);
