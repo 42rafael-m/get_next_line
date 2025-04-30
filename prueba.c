@@ -1,7 +1,22 @@
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "get_next_line.h"
+
 int main(void)
 {
-    char    *s;
+    char    **s = NULL;
+    char    *str;
+    int i = 0;
     
-    s = ft_strndup("holaa", 4);
-    printf("%s\n", s);
+    str = ft_strndup("holaa", 4);
+    s = &str;
+    printf("%p\n", *s);
+    printf("%p\n", str);
+    while (**s)
+    {
+        printf("%c\n", **s);
+        *s++;
+    }
+    free (*s);
 }

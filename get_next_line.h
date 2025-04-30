@@ -30,5 +30,6 @@ char    *ft_strjoin(char const *s1, char const *s2);
 char    *ft_strdup(const char *src);
 char    *ft_swap_free_sub_str(char *str, size_t start);
 char    *ft_strndup(const char *src, size_t n);
+char    *ft_strchr(const char *s, int c);
 
 #endif

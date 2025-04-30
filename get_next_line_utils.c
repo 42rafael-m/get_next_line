@@ -178,7 +178,7 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
         result[i] = '\0';
         return (result);
 }
-
+/*
 char    *ft_strdup(const char *src)
 {
         char            *dest;
@@ -191,7 +191,7 @@ char    *ft_strdup(const char *src)
         ft_strlcpy(dest, src, size + 1);
         return (dest);
 }
-
+*/
 char    *ft_swap_free_sub_str(char *str, size_t start)
 {
         char    *temp;
@@ -211,4 +211,19 @@ char    *ft_strndup(const char *src, size_t n)
                 return (NULL);
         ft_strlcpy(dest, src, n + 1);
         return (dest);
+}
+
+char    *ft_strchr(const char *s, int c)
+{
+        if (!s)
+                return (NULL);
+        while (*s)
+        {
+                if ((unsigned char)c == *s)
+                        return ((char *)s);
+                s++;
+        }
+        if ((unsigned char)c == *s)
+                return ((char *)s);
+        return (NULL);
 }

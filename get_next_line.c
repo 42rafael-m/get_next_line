@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   conarray.c                                         :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafael-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 15:33:50 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/04/29 18:28:49 by rafael-m         ###   ########.fr       */
+/*   Created: 2025/04/30 18:39:40 by rafael-m          #+#    #+#             */
+/*   Updated: 2025/04/30 18:39:43 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,73 +16,61 @@
 #endif
 #include <stdio.h>
 
-char    *ft_start(char *start, char *line)
+char    *ft_start(char **start/*, char **line*/)
 {
     size_t start_len;
+    char    *start2 = NULL;
+    char    *line2;
 
     start_len = 0;
-        while (start[start_len] && start_len < BUFFER_SIZE)
+    start2 = *start;
+    //line2 = *line;
+    //printf("start2 = %p\n", start2);
+    if (start2)
+    {
+        while (start2[start_len] && start_len < BUFFER_SIZE)
         {   
-            if (start[start_len] == '\n')
+
+            if (start2[start_len] == '\n')
             {   
-                line = ft_strndup(start, start_len);
-                start = ft_swap_free_sub_str(start, start_len + 1);
-                if (*start == '\0')
-                    free (start);
-                    //start = NULL;
-                if (!start)
+                line2 = ft_strndup(start2, start_len + 1);
+                start2 = ft_swap_free_sub_str(start2, start_len + 1);
+                if (!start2)
                     return (NULL);
-                return (line);
+                if (*start2 == '\0')
+                    return(free (start2), start2 = NULL, line2);
+                //printf("start in start2 == \\n = %sFIN\n", start);
+                //printf("line in start2 == \\n = %sFIN\n", line);
+                return (line2);
             }
             start_len++;
         }
-        if (start[start_len] == '\0')
-            line = ft_strndup(start, start_len);
-        return (free (start), start = NULL, NULL);
+        if (start2[start_len] == '\0' && start2)
+        {
+            line2 = ft_strndup(start2, start_len + 1);
+            //printf("line in start2 == \\0 = %sFIN\n", line);
+            //printf("start in start2 == \\0 = %sFIN\n", start);
+            //free (start2);
+            return (start2 = NULL, line2);
+        }
+        return (line2);
+    }
 }
-
 char    *get_next_line(int fd)
 {
-    
     ssize_t size;
     char    buffer[BUFFER_SIZE + 1];
     char    *line; 
     static char *start;
     int buff_pos;
-    size_t start_len;
 
-    start_len = 0;
-    buff_pos = 0;
+    //printf("start in gnl = %p\n", start);
     line = NULL;
-
     if (start)
-    {
-        while (start[start_len] && start_len < BUFFER_SIZE)
-        {   
-            if (start[start_len] == '\n')
-            {   
-                line = ft_strndup(start, start_len + 1);
-                start = ft_swap_free_sub_str(start, start_len + 1);
-                if (!start)
-                    return (NULL);
-                if (*start == '\0')
-                    return(free (start), start = NULL, line);
-                //printf("start in *start == \\n = %sFIN\n", start);
-                //printf("line in *start == \\n = %sFIN\n", line);
-                return (line);
-            }
-            start_len++;
-        }
-        if (start[start_len] == '\0' && start)
-        {
-            line = ft_strndup(start, start_len + 1);
-            //printf("line in *start == \\0 = %sFIN\n", line);
-            //printf("start in *start == \\0 = %sFIN\n", start);
-            free (start);
-            start = NULL;
-        }
-    }
-        //line = ft_start(&start, &line);
+        line = ft_start(&start/*, &line*/);
+    if (line && ft_strchr(line, '\n'))
+        return (line);
+    buff_pos = 0;
     size = read (fd, buffer, BUFFER_SIZE);
     buffer[BUFFER_SIZE] = '\0';
     //printf("size = %zdFIN\n", size);
