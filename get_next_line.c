@@ -79,14 +79,16 @@ char    *get_next_line(int fd)
         return (free (buffer), line);
     buff_pos = 0;
     size = read (fd, buffer, BUFFER_SIZE);
-    buffer[BUFFER_SIZE] = '\0';
+    //buffer[BUFFER_SIZE] = '\0';
     //printf("size = %zdFIN\n", size);
     //printf("buffer = %sFIN\n", buffer);
-    if (size == 0 && line)
+    if (line && size == 0)
     {
             start = ft_strndup(line, ft_strlen(line));
             return (free (line), line = NULL, start);
     }
+    if (start && size == 0)
+            return (start);
     if (size <= 0)
         return (free (buffer), NULL);
     while (1)

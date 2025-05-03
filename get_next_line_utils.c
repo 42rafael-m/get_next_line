@@ -86,50 +86,6 @@ size_t  ft_strlen(const char *str)
         return (i);
 }
 
-size_t  ft_strlcat(char *dest, const char *src, size_t size)
-{
-        size_t  i;
-        size_t  lg;
-        size_t  lg2;
-
-        i = 0;
-        lg = ft_strlen(dest);
-        lg2 = ft_strlen(src);
-        if (size <= lg)
-                return (size + lg2);
-        while (src[i] && (i + lg < size - 1))
-        {
-                dest[lg + i] = src[i];
-                i++;
-        }
-        dest[lg + i] = '\0';
-        return (lg + lg2);
-}
-
-void    *ft_memmove(void *dest, const void *src, size_t n)
-{
-        unsigned char           *d;
-        unsigned const char     *s;
-
-        d = (unsigned char *)dest;
-        s = (unsigned const char *)src;
-        if (d == s || n == 0)
-                return (dest);
-        if (d < s)
-        {
-                while (n--)
-                        *d++ = *s++;
-        }
-        else
-        {
-                d = d + n;
-                s = s + n;
-                while (n--)
-                        *--d = *--s;
-        }
-        return (dest);
-}
-
 char    *ft_strjoin(char *s1, char *s2)
 {
         char    *result;
@@ -143,14 +99,16 @@ char    *ft_strjoin(char *s1, char *s2)
         result = (char *)malloc((lg + 1) * sizeof(char));
         if (!result)
                 return (NULL);
-        ft_strlcpy(result, (char *)s1, lgs1 + 1);
+        if (!ft_strlen(s1))
+                return (result = ft_strndup(s2, ft_strlen(s2)));
+        else
+                ft_strlcpy(result, (char *)s1, lgs1 + 1);
         while (s2[i])
         {
                 result[lgs1 + i] = s2[i];
                 i++;
         }
         result[lg] = '\0';
-        free (s1);
         return (result);
 }
 
@@ -179,20 +137,7 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
         result[i] = '\0';
         return (result);
 }
-/*
-char    *ft_strdup(const char *src)
-{
-        char            *dest;
-        size_t          size;
 
-        size = ft_strlen(src);
-        dest = (char *)malloc((size + 1) * sizeof(char));
-        if (!dest)
-                return (NULL);
-        ft_strlcpy(dest, src, size + 1);
-        return (dest);
-}
-*/
 char    *ft_swap_free_sub_str(char *str, size_t start)
 {
         char    *temp;

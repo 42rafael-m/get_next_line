@@ -20,7 +20,13 @@
 # include <limits.h>
 # include <stddef.h>
 # include <stdint.h>
-
+/*
+typedef struct s_strings{
+    char    *start;
+    char    *line;
+    char    *buffer;
+} t_strings;
+*/
 char    *get_next_line(int fd);
 void    *ft_calloc(size_t nmemb, size_t size);
 size_t  ft_strlcat(char *dest, const char *src, size_t size);
