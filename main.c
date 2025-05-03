@@ -30,7 +30,10 @@ int main(int argc, char **argv)
         printf("PRINT = %sFIN\n", new_line);
         i++;
         if (new_line)
+        {
             free (new_line);
+            printf ("?\n");
+        }
         new_line = NULL;
         /*new_line = get_next_line(fd);
         printf("%s", new_line);

@@ -130,7 +130,7 @@ void    *ft_memmove(void *dest, const void *src, size_t n)
         return (dest);
 }
 
-char    *ft_strjoin(char const *s1, char const *s2)
+char    *ft_strjoin(char *s1, char *s2)
 {
         char    *result;
         int             lg;
@@ -150,6 +150,7 @@ char    *ft_strjoin(char const *s1, char const *s2)
                 i++;
         }
         result[lg] = '\0';
+        free (s1);
         return (result);
 }
 

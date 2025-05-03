@@ -69,11 +69,14 @@ char    *get_next_line(int fd)
     buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
     if (!buffer)
         return (NULL);
-    printf("buffer = %cFIN\n", *buffer);
+    //printf("buffer = %cFIN\n", *buffer);
     if (start)
+    {
+        printf("HOLA\n");
         line = ft_start(&start/*, &line*/);
+    }
     if (line && ft_strchr(line, '\n'))
-        return (line);
+        return (free (buffer), line);
     buff_pos = 0;
     size = read (fd, buffer, BUFFER_SIZE);
     buffer[BUFFER_SIZE] = '\0';
@@ -85,27 +88,32 @@ char    *get_next_line(int fd)
             return (free (line), line = NULL, start);
     }
     if (size <= 0)
-        return (NULL);
+        return (free (buffer), NULL);
     while (1)
     {
         if (buffer[buff_pos] == '\n')
         {
             if (!line)
             {
-                start = ft_substr(buffer, buff_pos + 1, (sizeof(buffer) - (buff_pos) + 1));
+                if (buffer[buff_pos])
+                        start = ft_substr(buffer, buff_pos + 1, (sizeof(buffer) - (buff_pos) + 1));
                 buffer[buff_pos + 1] = '\0';
                 line = ft_strndup(buffer, buff_pos + 1);
                 //printf("start in !line && buff== \\n = %sFIN\n", start);
                 //printf("line in !line && buff== \\n = %sFIN\n", line);
-                return (line);
+                return (free (buffer), line);
             }
-            start = ft_substr(buffer, buff_pos + 1, (sizeof(buffer) - (buff_pos + 1)));
+            if (buffer[buff_pos + 1])
+                {
+                    start = ft_substr(buffer, buff_pos + 1, (sizeof(buffer) - (buff_pos + 1)));
+                    printf("HOLA\n");
+                }
             //printf("buff_pos = %d\n", buff_pos);
             buffer[buff_pos + 1] = '\0';
             line = ft_strjoin(line, buffer);
             //printf("line in buff== \\n = %sFIN\n", line);
             //printf("start in buff== \\n = %sFIN\n", start);
-            return (line);     
+            return (free (buffer), line);     
         }
         if(buff_pos == size - 1)
         {
@@ -115,7 +123,7 @@ char    *get_next_line(int fd)
                 line = ft_strjoin(line, buffer);
             size = read(fd, buffer, BUFFER_SIZE);
             if (size <= 0)
-                return (NULL);
+                return (free (buffer), NULL);
             buff_pos = 0;
             continue ;
         }
