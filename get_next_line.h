@@ -31,5 +31,6 @@ char    *ft_strdup(const char *src);
 char    *ft_swap_free_sub_str(char *str, size_t start);
 char    *ft_strndup(const char *src, size_t n);
 char    *ft_strchr(const char *s, int c);
+void    *ft_bzero(void *s, size_t n);
 
 #endif

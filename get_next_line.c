@@ -39,7 +39,7 @@ char    *ft_start(char **start/*, char **line*/)
                     return (NULL);
                 if (*start2 == '\0')
                     return(free (start2), start2 = NULL, line2);
-                //printf("start in start2 == \\n = %sFIN\n", start);
+                printf("start in start2 == \\n = %sFIN\n", start2);
                 //printf("line in start2 == \\n = %sFIN\n", line);
                 return (line2);
             }
@@ -49,7 +49,7 @@ char    *ft_start(char **start/*, char **line*/)
         {
             line2 = ft_strndup(start2, start_len + 1);
             //printf("line in start2 == \\0 = %sFIN\n", line);
-            //printf("start in start2 == \\0 = %sFIN\n", start);
+            printf("start in start2 == \\0 = %sFIN\n", start2);
             //free (start2);
             return (start2 = NULL, line2);
         }
@@ -59,13 +59,17 @@ char    *ft_start(char **start/*, char **line*/)
 char    *get_next_line(int fd)
 {
     ssize_t size;
-    char    buffer[BUFFER_SIZE + 1];
+    char    *buffer;
     char    *line; 
     static char *start;
     int buff_pos;
 
     //printf("start in gnl = %p\n", start);
     line = NULL;
+    buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+    if (!buffer)
+        return (NULL);
+    printf("buffer = %cFIN\n", *buffer);
     if (start)
         line = ft_start(&start/*, &line*/);
     if (line && ft_strchr(line, '\n'))
