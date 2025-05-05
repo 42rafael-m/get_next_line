@@ -12,34 +12,13 @@
 
 #include "get_next_line.h"
 
-void    *ft_memset(void *s, int c, size_t n)
-{
-        size_t                  i;
-        unsigned char   *d;
-
-        i = 0;
-        d = (unsigned char *)s;
-        while (i < n)
-        {
-                d[i] = c;
-                i++;
-        }
-        return (s);
-}
-
-void    *ft_bzero(void *s, size_t n)
-{
-        unsigned char   *d;
-
-        d = (unsigned char *)s;
-        ft_memset(d, '\0', n);
-        return (s);
-}
-
 void    *ft_calloc(size_t nmemb, size_t size)
 {
         void    *result;
+        unsigned char   *d;
+        size_t                  i;
 
+        i = 0;
         if (nmemb == 0 || size == 0)
         {
                 result = malloc(0);
@@ -50,7 +29,12 @@ void    *ft_calloc(size_t nmemb, size_t size)
         result = malloc(nmemb * size);
         if (!result)
                 return (NULL);
-        ft_bzero(result, nmemb * size);
+        d = (unsigned char *)result;
+        while (i < nmemb)
+        {
+                d[i] = '\0';
+                i++;
+        }
         return (result);
 }
 
@@ -94,21 +78,24 @@ char    *ft_strjoin(char *s1, char *s2)
         int             i;
 
         i = 0;
+        if (!ft_strlen(s2) && !ft_strlen(s1))
+                return (NULL);
+        if (!ft_strlen(s2))
+                return(s1);
+        if (!ft_strlen(s1))
+                return (s2);
         lg = ft_strlen((char *)s1) + ft_strlen((char *)s2);
         lgs1 = ft_strlen((char *)s1);
-        result = (char *)malloc((lg + 1) * sizeof(char));
+        result = (char *)ft_calloc((lg + 1), sizeof(char));
         if (!result)
                 return (NULL);
-        if (!ft_strlen(s1))
-                return (result = ft_strndup(s2, ft_strlen(s2)));
-        else
-                ft_strlcpy(result, (char *)s1, lgs1 + 1);
+        ft_strlcpy(result, s1, lgs1 + 1);
+        ft_strlcpy(result + lgs1, s2, lg);
         while (s2[i])
         {
                 result[lgs1 + i] = s2[i];
                 i++;
         }
-        result[lg] = '\0';
         return (result);
 }
 

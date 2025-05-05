@@ -1,11 +1,16 @@
 #include <string.h>
+#include "get_next_line.h"
+
 int main()
 {
-    char *str = strdup("holaquetal");
+    char    *r;
+    char *str = strdup("holaque");
+    char *str2 = strdup("tal");
     
-    //str += 2;
-    str[5] = '\0';
-    printf("%s\n", str);
+    r = ft_strjoin(str, str2);
+    int len = ft_strlen(r);
+    printf("len = %d\n", len);
+    printf("%s\n", r);
     free (str);
     char*s = str + 8;
 }
