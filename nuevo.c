@@ -43,6 +43,8 @@ char    *ft_new_line(char **dest, char **src)
                 if (*src[i] == '\n')
                 {
                     *dest = ft_strjoin(*dest, ft_substr(*src, 0, i + 1));
+                    if (!(src[0][i + 1]))
+                        return (free(*src), *dest);
                     *src = ft_swap_free_sub_str(*src, i + 1);
                     break ;
                 }
