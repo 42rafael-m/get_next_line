@@ -29,28 +29,40 @@ char    ft_read_buffer(char **buffer)
 */
 char    *ft_new_line(char **dest, char **src)
 {
-        int     i;
+    char    *result;
+    int     i;
 
-        i = 0;
-        if (!(ft_strchr(*src, '\n')))
-        {
-            *dest = ft_strndup(*src, ft_strlen(*src));
-            free (*src);
-            return (*dest);
-        }
-        while (*src[i])
-        {
-                if (*src[i] == '\n')
+    i = 0;
+    if (!(ft_strchr(*src, '\n')))
+    {
+        result = ft_substr(*src, 0, ft_strlen(*src));
+        free (*src);
+        *src = NULL;
+        free (*dest);
+        *dest = NULL;
+        return (result);
+    }
+    while (*src[i])
+    {
+            if (*src[i] == '\n')
+            {
+                result = ft_strjoin(*dest, ft_substr(*src, 0, i + 1));
+                if (!(src[0][i + 1]))
                 {
-                    *dest = ft_strjoin(*dest, ft_substr(*src, 0, i + 1));
-                    if (!(src[0][i + 1]))
-                        return (free(*src), *dest);
-                    *src = ft_swap_free_sub_str(*src, i + 1);
-                    break ;
+                    free (*src);
+                    *src = NULL;
+                    free (*dest);
+                    *dest = NULL;
+                    return (result);
                 }
-                i++;
-        }
-        return (*dest);
+                free (*dest);
+                *dest = NULL;
+                *src = ft_swap_free_sub_str(*src, i + 1);
+                break ;
+            }
+            i++;
+    }
+    return (result);
 }
 
 char    *get_next_line(int fd)
@@ -60,6 +72,7 @@ char    *get_next_line(int fd)
     size_t i;
     char    *line;
     ssize_t size;
+    char    *s;
 
     line = NULL;
     if (ft_strlen(start))
@@ -80,7 +93,10 @@ char    *get_next_line(int fd)
             return (line);
     else
     {
-        line = ft_strjoin(line, get_next_line(fd));
+        s = get_next_line(fd);
+        line = ft_strjoin(line, s);
+        free (s);
+        s = NULL;
         return (line);
     }
     return (NULL);

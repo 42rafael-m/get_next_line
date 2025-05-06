@@ -32,7 +32,7 @@ int main(int argc, char **argv)
         if (new_line)
         {
             free (new_line);
-            printf ("?\n");
+            //printf ("?\n");
         }
         new_line = NULL;
         /*new_line = get_next_line(fd);
