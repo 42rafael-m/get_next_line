@@ -42,9 +42,9 @@ char    *ft_new_line(char **dest, char **src)
         *dest = NULL;
         return (result);
     }
-    while (*src[i])
+    while (src[0][i])
     {
-            if (*src[i] == '\n')
+            if (src[0][i] == '\n')
             {
                 result = ft_strjoin(*dest, ft_substr(*src, 0, i + 1));
                 if (!(src[0][i + 1]))
