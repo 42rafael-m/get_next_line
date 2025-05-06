@@ -27,7 +27,7 @@ char    ft_read_buffer(char **buffer)
         return (free (*buffer), buffer = NULL, NULL);
 }
 */
-char    *ft_new_line(char **dest, char **src)
+char    *ft_new_line(char **dest, char **src, char **start)
 {
     char    *result;
     int     i;
@@ -47,6 +47,8 @@ char    *ft_new_line(char **dest, char **src)
             if (src[0][i] == '\n')
             {
                 result = ft_strjoin(*dest, ft_substr(*src, 0, i + 1));
+                if (!result)
+                    return (NULL);
                 if (!(src[0][i + 1]))
                 {
                     free (*src);
@@ -55,9 +57,7 @@ char    *ft_new_line(char **dest, char **src)
                     *dest = NULL;
                     return (result);
                 }
-                free (*dest);
-                *dest = NULL;
-                *src = ft_swap_free_sub_str(*src, i + 1);
+                *start = ft_swap_free_sub_str(*src, i + 1);
                 break ;
             }
             i++;
@@ -77,7 +77,7 @@ char    *get_next_line(int fd)
     line = NULL;
     if (ft_strlen(start))
     {
-        line = ft_new_line(&start, &line);
+        line = ft_new_line(&line, &start, &start);
         if (ft_strchr(line, '\n'))
             return (line);
     }
@@ -85,10 +85,12 @@ char    *get_next_line(int fd)
     if (!buffer)
         return (NULL);
     size = read (fd, buffer, BUFFER_SIZE);
+    if (size == 0 && line)
+        return (line);
     if (size <= 0)
         return (free (buffer), buffer = NULL, NULL);
     if (buffer)
-        line = ft_new_line(&line, &buffer);
+        line = ft_new_line(&line, &buffer, &start);
     if (ft_strchr(line, '\n'))
             return (line);
     else
