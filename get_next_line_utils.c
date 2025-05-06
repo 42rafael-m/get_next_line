@@ -101,6 +101,7 @@ char    *ft_strjoin(char *s1, char *s2)
         {
                 result = ft_substr(s2, 0, ft_strlen(s2));
                 free (s2);
+                s2 = NULL;
                 return(result);
         }
         ft_strlcpy(result, s1, lgs1 + 1);
@@ -112,8 +113,8 @@ char    *ft_strjoin(char *s1, char *s2)
         }
         free (s1);
         s1 = NULL;
-        // free (s2);
-        // s2 = NULL;
+        free (s2);
+        s2 = NULL;
         return (result);
 }
 
@@ -131,7 +132,7 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
                 return (result = ft_calloc(1, 1));
         if (len > lg - start)
                 len = lg - start;
-        result = malloc((len + 1) * sizeof(char));
+        result = ft_calloc((len + 1), sizeof(char));
         if (!result)
                 return (NULL);
         while (i < len)
@@ -139,7 +140,6 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
                 result[i] = s[start + i];
                 i++;
         }
-        result[i] = '\0';
         return (result);
 }
 
@@ -150,6 +150,8 @@ char    *ft_swap_free_sub_str(char *str, size_t start)
         temp = ft_substr(str, start, (ft_strlen(str) - start));
         free (str);
         str = NULL;
+        if (!temp)
+                return (NULL);
         return (temp);
 }
 

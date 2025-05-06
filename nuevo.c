@@ -30,6 +30,7 @@ char    ft_read_buffer(char **buffer)
 char    *ft_new_line(char **dest, char **src, char **start)
 {
     char    *result;
+    char    *s;
     int     i;
 
     i = 0;
@@ -46,7 +47,10 @@ char    *ft_new_line(char **dest, char **src, char **start)
     {
             if (src[0][i] == '\n')
             {
-                result = ft_strjoin(*dest, ft_substr(*src, 0, i + 1));
+                s = ft_substr(*src, 0, i + 1);
+                result = ft_strjoin(*dest, s);
+                //free(s);
+                //s = NULL;
                 if (!result)
                     return (NULL);
                 if (!(src[0][i + 1]))
@@ -58,6 +62,10 @@ char    *ft_new_line(char **dest, char **src, char **start)
                     return (result);
                 }
                 *start = ft_swap_free_sub_str(*src, i + 1);
+                // free (*src);
+                // *src = NULL;
+                // free (*dest);
+                // *dest = NULL;
                 break ;
             }
             i++;
@@ -91,14 +99,14 @@ char    *get_next_line(int fd)
         return (free (buffer), buffer = NULL, NULL);
     if (buffer)
         line = ft_new_line(&line, &buffer, &start);
+    //if (ft_strlen(buffer))
+        //free (buffer);
     if (ft_strchr(line, '\n'))
             return (line);
     else
     {
         s = get_next_line(fd);
         line = ft_strjoin(line, s);
-        free (s);
-        s = NULL;
         return (line);
     }
     return (NULL);
