@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:35:36 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/07 14:13:10 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:21:59 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void    *ft_calloc(size_t nmemb, size_t size)
         }
         return (result);
 }
-
+/*
 size_t  ft_strlcpy(char *dest, const char *src, size_t size)
 {
         size_t  i;
@@ -57,7 +57,7 @@ size_t  ft_strlcpy(char *dest, const char *src, size_t size)
         dest[i] = '\0';
         return (lg);
 }
-
+*/
 size_t  ft_strlen(const char *str)
 {
         int     i;
@@ -133,7 +133,7 @@ char    *ft_strjoin(char*s1, char*s2)
                 return (s2);
         if (!s2)
                 return (s1);
-        result = (char *)ft_calloc((ft_strlen(s1) + ft_strlen(s2)) * 1);
+        result = (char *)ft_calloc((ft_strlen(s1) + ft_strlen(s2)), 1);
         if (!result)
                 return (NULL);
         while (i < ft_strlen(s1))
@@ -167,7 +167,7 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
         }
         return (result);
 }
-
+/*
 char    *ft_swap_free_sub_str(char *str, size_t start)
 {
         char    *temp;
@@ -179,7 +179,7 @@ char    *ft_swap_free_sub_str(char *str, size_t start)
                 return (NULL);
         return (temp);
 }
-
+*/
 char    *ft_strchr(const char *s, int c)
 {
         if (!s)

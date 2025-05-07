@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:06:22 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/07 13:35:50 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:25:43 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     int i = 0;
     int     fd;
 
-    fd = open("test.txt", O_RDONLY);
+    fd = open("test2.txt", O_RDONLY);
     while (i < LINES)
     {
         new_line = get_next_line(fd);
