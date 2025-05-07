@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafael-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:35:36 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/04/27 15:35:39 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:13:10 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ size_t  ft_strlen(const char *str)
                 i++;
         return (i);
 }
-
+/*
 char    *ft_strjoin(char *s1, char *s2)
 {
         char    *result;
@@ -115,6 +115,31 @@ char    *ft_strjoin(char *s1, char *s2)
         s1 = NULL;
         free (s2);
         s2 = NULL;
+        return (result);
+}
+*/
+
+char    *ft_strjoin(char*s1, char*s2)
+{
+        char    *result;
+        int     i;
+        int     j;
+
+        j = 0;
+        i = 0;
+        if (!s1 || !s2)
+                return (NULL);
+        if (!s1)
+                return (s2);
+        if (!s2)
+                return (s1);
+        result = (char *)ft_calloc((ft_strlen(s1) + ft_strlen(s2)) * 1);
+        if (!result)
+                return (NULL);
+        while (i < ft_strlen(s1))
+                result[i] = s1[i++];
+        while (s2[j])
+                result[i++] = s2[j++];
         return (result);
 }
 

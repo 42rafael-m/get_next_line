@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafael-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:06:22 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/04/28 10:06:24 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:35:50 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int main(int argc, char **argv)
     int i = 0;
     int     fd;
 
-    fd = open("test2.txt", O_RDONLY);
+    fd = open("test.txt", O_RDONLY);
     while (i < LINES)
     {
         new_line = get_next_line(fd);
-        printf("PRINT = %sFIN\n", new_line);
+        printf("%s", new_line);
         i++;
         if (new_line)
         {

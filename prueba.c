@@ -5,7 +5,7 @@
 
 int main(void)
 {
-    char    **s = NULL;
+    /*char    **s = NULL;
     char    *str;
     int i = 0;
     
@@ -18,5 +18,8 @@ int main(void)
         printf("%c\n", **s);
         *s++;
     }
-    free (*s);
+    free (*s);*/
+    char *s = "HOLA\n";
+
+    printf("", s, s +);
 }
