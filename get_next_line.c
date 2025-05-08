@@ -3,133 +3,119 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafael-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 18:39:40 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/04/30 18:39:43 by rafael-m         ###   ########.fr       */
+/*   Created: 2025/05/07 14:13:43 by rafael-m          #+#    #+#             */
+/*   Updated: 2025/05/08 12:39:45 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 2048
+# define BUFFER_SIZE 1024
 #endif
-#include <stdio.h>
 
-char    *ft_start(char **start/*, char **line*/)
+//strjoin libera la primera cadena
+
+char    *ft_start(char  **start)
 {
-    size_t start_len;
-    char    *start2 = NULL;
-    char    *line2;
+    char    *t;
+    char    *line;
+    char    *n;
 
-    start_len = 0;
-    start2 = *start;
-    //line2 = *line;
-    //printf("start2 = %p\n", start2);
-    if (start2)
+    line = NULL;
+    t = NULL;
+    n = NULL;
+    n = ft_strchr(*start, '\n');
+    if (n)
     {
-        while (start2[start_len] && start_len < BUFFER_SIZE)
-        {   
-
-            if (start2[start_len] == '\n')
-            {   
-                line2 = ft_strndup(start2, start_len + 1);
-                start2 = ft_swap_free_sub_str(start2, start_len + 1);
-                if (!start2)
-                    return (NULL);
-                if (*start2 == '\0')
-                    return(free (start2), start2 = NULL, line2);
-                printf("start in start2 == \\n = %sFIN\n", start2);
-                //printf("line in start2 == \\n = %sFIN\n", line);
-                return (line2);
-            }
-            start_len++;
-        }
-        if (start2[start_len] == '\0' && start2)
+        line = ft_substr(*start, 0, n - *start + 1);
+        if (start[0][(n + 1) - *start])
         {
-            line2 = ft_strndup(start2, start_len + 1);
-            //printf("line in start2 == \\0 = %sFIN\n", line);
-            printf("start in start2 == \\0 = %sFIN\n", start2);
-            //free (start2);
-            return (start2 = NULL, line2);
+            t = ft_substr(*start, n - *start + 1, ft_strlen(*start));
+            free (*start);
+            *start = t;
+            return (line);
         }
-        return (line2);
+        free(*start);
+        *start = NULL;
+        return (line);
     }
+    line = ft_substr(*start, 0, ft_strlen(*start));
+    return (free(*start),*start = NULL, line);
 }
+
+char    *ft_new_line(char **buffer, char **start)
+{
+    char    *n;
+    char    *line;
+    
+    line = NULL;
+    n = NULL;
+    n = ft_strchr(*buffer, '\n');
+    if (n)
+    {
+        line = ft_substr(*buffer, 0, n - *buffer + 1);
+        if (buffer[0][(n + 1) - *buffer])
+            *start = ft_substr(*buffer, (n + 1) - *buffer, ft_strlen(*buffer));
+        return (free (*buffer), line);
+    }
+    line = ft_substr(*buffer, 0, ft_strlen(*buffer));
+    return (free(*buffer), line);
+}
+
+// char *ft_read(char **buffer, **line, fd)
+// {
+//     ssize_t size;
+//     size = read(fd, *buffer, BUFFER_SIZE);
+//     if (size < 0)
+//         return (NULL);
+//     if (size == 0)
+//     {       
+//     }
+// }
+
 char    *get_next_line(int fd)
 {
-    ssize_t size;
     char    *buffer;
-    char    *line; 
-    static char *start;
-    int buff_pos;
+    char    *line;
+    static char    *start;
+    ssize_t size;
+    char    *s;
 
-    //printf("start in gnl = %p\n", start);
     line = NULL;
+    buffer = NULL;
+    if (start)
+        line = ft_start(&start);
+    if (ft_strchr(line, 'n'))
+        return (line);
+    if (BUFFER_SIZE <= 0)
+        return (NULL);
     buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
     if (!buffer)
         return (NULL);
-    //printf("buffer = %cFIN\n", *buffer);
-    if (start)
+    size = read(fd, buffer, BUFFER_SIZE);
+    if (size < 0)
+        return (NULL);
+    if (size < BUFFER_SIZE && size >= 0)
     {
-        printf("HOLA\n");
-        line = ft_start(&start/*, &line*/);
-    }
-    if (line && ft_strchr(line, '\n'))
+        if (!line)
+            return (buffer);
+        if (size >  0)
+            start = ft_substr(buffer, 0, ft_strlen(buffer));
         return (free (buffer), line);
-    buff_pos = 0;
-    size = read (fd, buffer, BUFFER_SIZE);
-    //buffer[BUFFER_SIZE] = '\0';
-    //printf("size = %zdFIN\n", size);
-    //printf("buffer = %sFIN\n", buffer);
-    if (line && size == 0)
-    {
-            start = ft_strndup(line, ft_strlen(line));
-            return (free (line), line = NULL, start);
     }
-    if (start && size == 0)
-            return (start);
-    if (size <= 0)
-        return (free (buffer), NULL);
-    while (1)
+    if (size == 0)
+        return (NULL);
+    s = ft_new_line(&buffer, &start);
+    line = ft_strjoin(line, s);
+    free(s);
+    s = NULL;
+    while (!ft_strchr(line, '\n') && size)
     {
-        if (buffer[buff_pos] == '\n')
-        {
-            if (!line)
-            {
-                if (buffer[buff_pos])
-                        start = ft_substr(buffer, buff_pos + 1, (sizeof(buffer) - (buff_pos) + 1));
-                buffer[buff_pos + 1] = '\0';
-                line = ft_strndup(buffer, buff_pos + 1);
-                //printf("start in !line && buff== \\n = %sFIN\n", start);
-                //printf("line in !line && buff== \\n = %sFIN\n", line);
-                return (free (buffer), line);
-            }
-            if (buffer[buff_pos + 1])
-                {
-                    start = ft_substr(buffer, buff_pos + 1, (sizeof(buffer) - (buff_pos + 1)));
-                    printf("HOLA\n");
-                }
-            //printf("buff_pos = %d\n", buff_pos);
-            buffer[buff_pos + 1] = '\0';
-            line = ft_strjoin(line, buffer);
-            //printf("line in buff== \\n = %sFIN\n", line);
-            //printf("start in buff== \\n = %sFIN\n", start);
-            return (free (buffer), line);     
-        }
-        if(buff_pos == size - 1)
-        {
-            if (!line)
-                line = ft_strndup(buffer, buff_pos + 1);
-            else
-                line = ft_strjoin(line, buffer);
-            size = read(fd, buffer, BUFFER_SIZE);
-            if (size <= 0)
-                return (free (buffer), NULL);
-            buff_pos = 0;
-            continue ;
-        }
-        buff_pos++;
+        s = get_next_line(fd);
+        line = ft_strjoin(line, s);
     }
-    return (NULL);
+    return (free(s), line);     
 }

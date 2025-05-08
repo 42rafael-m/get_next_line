@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:35:36 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 11:14:46 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:31:54 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 	}
 	result[lg] = '\0';
+        free (s1);
 	return (result);
 }
 
