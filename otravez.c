@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/07 18:32:26 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:16:02 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char    *ft_start(char  **start)
             t = ft_substr(*start, n - *start + 1, ft_strlen(*start));
             free (*start);
             *start = t;
+            //printf("start in start++ = %sF\n", *start);
             return (line);
         }
         return (free(*start), *start = NULL, line);
@@ -56,6 +57,7 @@ char    *ft_new_line(char **buffer, char **start)
         line = ft_substr(*buffer, 0, n - *buffer + 1);
         if (buffer[0][(n + 1) - *buffer])
             *start = ft_substr(*buffer, (n + 1) - *buffer, ft_strlen(*buffer));
+            //printf("start in ft_nl = %sF\n", *start);
         return (line);
     }
     line = ft_substr(*buffer, 0, ft_strlen(*buffer));
@@ -79,8 +81,10 @@ char    *get_next_line(int fd)
     char    *line;
     static char    *start;
     ssize_t size;
+    char    *s;
 
     line = NULL;
+    //printf("start in gnl = %sF\n", start);
     if (start)
         line = ft_start(&start);
     if (ft_strchr(line, 'n'))
@@ -99,6 +103,7 @@ char    *get_next_line(int fd)
     }
     if (size == 0)
         return (NULL);
-    line = ft_new_line(&buffer, &start);
-    return (free (buffer), line);     
+    s = ft_new_line(&buffer, &start);
+    line = ft_strjoin(line, s);
+    return (free (buffer), free(s), line);     
 }
