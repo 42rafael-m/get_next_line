@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 13:53:03 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:30:04 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ char	*ft_start(char **start)
 			*start = t;
 			return (line);
 		}
-		free(*start);
-		*start = NULL;
-		return (line);
+		return (free(*start), *start = NULL, line);
 	}
 	line = ft_substr(*start, 0, ft_strlen(*start));
 	return (free(*start),*start = NULL, line);
@@ -105,7 +103,6 @@ char	*ft_read(char **line, char **start, ssize_t *size, int fd)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	char		*s;
 	ssize_t		size;
 	static char	*start;
 
@@ -121,11 +118,6 @@ char	*get_next_line(int fd)
 	if (!line)
 		return (NULL);
 	while (!ft_strchr(line, '\n') && size)
-	{
-		s = get_next_line(fd);
-		line = ft_strjoin(line, s);
-		if (s)
-			free(s);
-	}
+		line = ft_read(&line, &start, &size, fd);
 	return (line);
 }
