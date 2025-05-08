@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 15:30:04 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:43:10 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ char	*ft_new_line(char **buffer, char **start)
 		line = ft_substr(*buffer, 0, n - *buffer + 1);
 		if (buffer[0][(n + 1) - *buffer])
 			*start = ft_substr(*buffer, (n + 1) - *buffer, ft_strlen(*buffer));
-		return (free (*buffer), line);
+		return (free (*buffer), buffer = NULL, line);
 	}
 	line = ft_substr(*buffer, 0, ft_strlen(*buffer));
-	return (free(*buffer), line);
+	return (free(*buffer), buffer = NULL, line);
 }
 
 char	*ft_read(char **line, char **start, ssize_t *size, int fd)
@@ -83,18 +83,16 @@ char	*ft_read(char **line, char **start, ssize_t *size, int fd)
 	if (!buffer)
 		return (NULL);
 	*size = read(fd, buffer, BUFFER_SIZE);
-	if (*size < 0)
-		return (NULL);
+	if (*size <= 0)
+		return (free (buffer), buffer = NULL, NULL);
 	if (*size < BUFFER_SIZE && *size >= 0)
 	{
 		if (!(*line))
 			return (buffer);
 		if (*size > 0)
 			*start = ft_substr(buffer, 0, ft_strlen(buffer));
-		return (free (buffer), *line);
+		return (free (buffer), buffer = NULL, *line);
 	}
-	if (*size == 0)
-		return (NULL);
 	s = ft_new_line(&buffer, start);
 	*line = ft_strjoin(*line, s);
 	return (free(s), s = NULL, *line);
