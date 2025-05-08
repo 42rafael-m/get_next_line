@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 12:39:45 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:20:15 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,57 +65,57 @@ char    *ft_new_line(char **buffer, char **start)
     return (free(*buffer), line);
 }
 
-// char *ft_read(char **buffer, **line, fd)
-// {
-//     ssize_t size;
-//     size = read(fd, *buffer, BUFFER_SIZE);
-//     if (size < 0)
-//         return (NULL);
-//     if (size == 0)
-//     {       
-//     }
-// }
+char *ft_read(char **line, char **start, ssize_t *size, int fd)
+{
+    char    *buffer;
+    char    *s;
+    
+    buffer = NULL;
+    buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+    if (!buffer)
+        return (NULL);
+    *size = read(fd, buffer, BUFFER_SIZE);
+    if (*size < 0)
+        return (NULL);
+    if (*size < BUFFER_SIZE && size >= 0)
+    {
+        if (!(*line))
+            return (buffer);
+        if (*size >  0)
+            *start = ft_substr(buffer, 0, ft_strlen(buffer));
+        return (free (buffer), *line);
+    }
+    if (*size == 0)
+        return (NULL);
+    s = ft_new_line(&buffer, start);
+    *line = ft_strjoin(*line, s);
+    return (free(s), s = NULL, *line);
+}
 
 char    *get_next_line(int fd)
 {
-    char    *buffer;
     char    *line;
     static char    *start;
-    ssize_t size;
     char    *s;
+    ssize_t    size;
 
     line = NULL;
-    buffer = NULL;
+    size = 0;
+    if (BUFFER_SIZE <= 0)
+        return (NULL);
     if (start)
         line = ft_start(&start);
     if (ft_strchr(line, 'n'))
         return (line);
-    if (BUFFER_SIZE <= 0)
+    line = ft_read(&line, &start, &size, fd);
+    if (!line)
         return (NULL);
-    buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-    if (!buffer)
-        return (NULL);
-    size = read(fd, buffer, BUFFER_SIZE);
-    if (size < 0)
-        return (NULL);
-    if (size < BUFFER_SIZE && size >= 0)
-    {
-        if (!line)
-            return (buffer);
-        if (size >  0)
-            start = ft_substr(buffer, 0, ft_strlen(buffer));
-        return (free (buffer), line);
-    }
-    if (size == 0)
-        return (NULL);
-    s = ft_new_line(&buffer, &start);
-    line = ft_strjoin(line, s);
-    free(s);
-    s = NULL;
     while (!ft_strchr(line, '\n') && size)
     {
         s = get_next_line(fd);
         line = ft_strjoin(line, s);
+        if (s)
+            free(s);
     }
-    return (free(s), line);     
+    return (line);     
 }
