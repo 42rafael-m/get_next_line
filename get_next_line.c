@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 13:45:58 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:53:03 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024
 #endif
-
-//strjoin libera la primera cadena
 
 size_t	ft_strlen(const char *str)
 {
@@ -89,7 +87,7 @@ char	*ft_read(char **line, char **start, ssize_t *size, int fd)
 	*size = read(fd, buffer, BUFFER_SIZE);
 	if (*size < 0)
 		return (NULL);
-	if (*size < BUFFER_SIZE && size >= 0)
+	if (*size < BUFFER_SIZE && *size >= 0)
 	{
 		if (!(*line))
 			return (buffer);
