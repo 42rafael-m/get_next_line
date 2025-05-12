@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:35:36 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 13:46:09 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:06:49 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (result);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int stash, size_t len)
 {
 	char	*result;
 	size_t	i;
@@ -92,16 +92,16 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	lg = ft_strlen((char *)s);
-	if (start > lg)
+	if (stash > lg)
 		return (result = ft_calloc(1, 1));
-	if (len > lg - start)
-		len = lg - start;
+	if (len > lg - stash)
+		len = lg - stash;
 	result = ft_calloc((len + 1), sizeof(char));
 	if (!result)
 		return (NULL);
 	while (i < len)
 	{
-		result[i] = s[start + i];
+		result[i] = s[stash + i];
 		i++;
 	}
 	return (result);

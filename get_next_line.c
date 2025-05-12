@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:10 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:06:49 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,31 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_start(char **start)
+char	*ft_stash(char **stash)
 {
 	char	*t;
 	char	*line;
 	char	*n;
 
 	line = NULL;
-	n = ft_strchr(*start, '\n');
+	n = ft_strchr(*stash, '\n');
 	if (n)
 	{
-		line = ft_substr(*start, 0, n - *start + 1);
-		if (start[0][(n + 1) - *start])
+		line = ft_substr(*stash, 0, n - *stash + 1);
+		if (stash[0][(n + 1) - *stash])
 		{
-			t = ft_substr(*start, n - *start + 1, ft_strlen(*start));
-			free (*start);
-			*start = t;
+			t = ft_substr(*stash, n - *stash + 1, ft_strlen(*stash));
+			free (*stash);
+			*stash = t;
 			return (line);
 		}
-		return (free(*start), *start = NULL, line);
+		return (free(*stash), *stash = NULL, line);
 	}
-	line = ft_substr(*start, 0, ft_strlen(*start));
-	return (free(*start),*start = NULL, line);
+	line = ft_substr(*stash, 0, ft_strlen(*stash));
+	return (free(*stash),*stash = NULL, line);
 }
 
-char	*ft_new_line(char **buffer, char **start)
+char	*ft_new_line(char **buffer, char **stash)
 {
 	char	*n;
 	char	*new_line;
@@ -64,13 +64,13 @@ char	*ft_new_line(char **buffer, char **start)
 		if (buffer[0][(n + 1) - *buffer])
 		{
 			s = ft_substr(*buffer, (n + 1) - *buffer, ft_strlen(*buffer));
-			if (!start)
+			if (!stash)
 			{
-				*start = ft_substr(s, 0, ft_strlen(s));
+				*stash = ft_substr(s, 0, ft_strlen(s));
 				free(s);
 			}
 			else
-				*start = ft_strjoin(*start, s);
+				*stash = ft_strjoin(*stash, s);
 			free (s);
 		}
 		return (free (*buffer), buffer = NULL, new_line);
@@ -79,7 +79,7 @@ char	*ft_new_line(char **buffer, char **start)
 	return (free(*buffer), buffer = NULL, new_line);
 }
 
-char	*ft_read(char **line, char **start, ssize_t *size, int fd)
+char	*ft_read(char **line, char **stash, ssize_t *size, int fd)
 {
 	char	*buffer;
 	char	*s;
@@ -89,18 +89,18 @@ char	*ft_read(char **line, char **start, ssize_t *size, int fd)
 		return (NULL);
 	*size = read(fd, buffer, BUFFER_SIZE);
 	if (*size < 0)
-		return (free(*start), free(*line), free (buffer), NULL);
+		return (free(*stash), free(*line), free (buffer), NULL);
 	if (*size == 0 && line)
 		return (free (buffer), buffer = NULL, *line);
 	if (*size < BUFFER_SIZE && *size >= 0)
 	{
-		s = ft_new_line(&buffer, start);
+		s = ft_new_line(&buffer, stash);
 		if (!(*line))
 			return (s);
 		*line = ft_strjoin(*line, s);
 		return (free(s), *line);
 	}
-	s = ft_new_line(&buffer, start);
+	s = ft_new_line(&buffer, stash);
 	*line = ft_strjoin(*line, s);
 	return (free(s), s = NULL, *line);
 }
@@ -109,20 +109,20 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	ssize_t		size;
-	static char	*start;
+	static char	*stash;
 
 	line = NULL;
 	size = 0;
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	if (start)
-		line = ft_start(&start);
+	if (stash)
+		line = ft_stash(&stash);
 	if (ft_strchr(line, '\n'))
 		return (line);
-	line = ft_read(&line, &start, &size, fd);
+	line = ft_read(&line, &stash, &size, fd);
 	if (!line)
 		return (NULL);
 	while (!ft_strchr(line, '\n') && size)
-		line = ft_read(&line, &start, &size, fd);
+		line = ft_read(&line, &stash, &size, fd);
 	return (line);
 }
