@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <string.h>
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024
 #endif
@@ -35,8 +34,6 @@ char	*ft_start(char **start)
 	char	*n;
 
 	line = NULL;
-	t = NULL;
-	n = NULL;
 	n = ft_strchr(*start, '\n');
 	if (n)
 	{
@@ -57,20 +54,29 @@ char	*ft_start(char **start)
 char	*ft_new_line(char **buffer, char **start)
 {
 	char	*n;
-	char	*line;
+	char	*new_line;
+	char	*s;
 
-	line = NULL;
-	n = NULL;
 	n = ft_strchr(*buffer, '\n');
 	if (n)
 	{
-		line = ft_substr(*buffer, 0, n - *buffer + 1);
+		new_line = ft_substr(*buffer, 0, n - *buffer + 1);
 		if (buffer[0][(n + 1) - *buffer])
-			*start = ft_substr(*buffer, (n + 1) - *buffer, ft_strlen(*buffer));
-		return (free (*buffer), buffer = NULL, line);
+		{
+			s = ft_substr(*buffer, (n + 1) - *buffer, ft_strlen(*buffer));
+			if (!start)
+			{
+				*start = ft_substr(s, 0, ft_strlen(s));
+				free(s);
+			}
+			else
+				*start = ft_strjoin(*start, s);
+			free (s);
+		}
+		return (free (*buffer), buffer = NULL, new_line);
 	}
-	line = ft_substr(*buffer, 0, ft_strlen(*buffer));
-	return (free(*buffer), buffer = NULL, line);
+	new_line = ft_substr(*buffer, 0, ft_strlen(*buffer));
+	return (free(*buffer), buffer = NULL, new_line);
 }
 
 char	*ft_read(char **line, char **start, ssize_t *size, int fd)
@@ -78,20 +84,21 @@ char	*ft_read(char **line, char **start, ssize_t *size, int fd)
 	char	*buffer;
 	char	*s;
 
-	buffer = NULL;
 	buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
 	*size = read(fd, buffer, BUFFER_SIZE);
-	if (*size <= 0)
-		return (free (buffer), buffer = NULL, NULL);
+	if (*size < 0)
+		return (free(*start), free(*line), free (buffer), NULL);
+	if (*size == 0 && line)
+		return (free (buffer), buffer = NULL, *line);
 	if (*size < BUFFER_SIZE && *size >= 0)
 	{
+		s = ft_new_line(&buffer, start);
 		if (!(*line))
-			return (buffer);
-		if (*size > 0)
-			*start = ft_substr(buffer, 0, ft_strlen(buffer));
-		return (free (buffer), buffer = NULL, *line);
+			return (s);
+		*line = ft_strjoin(*line, s);
+		return (free(s), *line);
 	}
 	s = ft_new_line(&buffer, start);
 	*line = ft_strjoin(*line, s);
@@ -110,7 +117,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (start)
 		line = ft_start(&start);
-	if (ft_strchr(line, 'n'))
+	if (ft_strchr(line, '\n'))
 		return (line);
 	line = ft_read(&line, &start, &size, fd);
 	if (!line)

@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 #ifndef LINES
-# define LINES 2
+# define LINES 20
 #endif
 
 int main(int argc, char **argv)
@@ -25,10 +25,10 @@ int main(int argc, char **argv)
     int fd;
     //int fd2;
 
-    fd = open("test.txt", O_RDONLY);
+    fd = open("read_error.txt", O_RDONLY);
     //printf("fd = %d\n", fd);
     //fd = open("test2.txt", O_RDONLY);
-    while (i < LINES)
+    while (i <= LINES)
     {
         new_line = get_next_line(fd);
         // new_line2 = get_next_line(fd2);
