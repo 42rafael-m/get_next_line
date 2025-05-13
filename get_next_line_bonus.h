@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:29:03 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 16:30:18 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:33:56 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <limits.h>
-# include <stddef.h>
-# include <stdint.h>
+# include <stdio.h>
 # include "get_next_line.h"
 
 char	*get_next_line(int fd);

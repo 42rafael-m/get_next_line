@@ -6,12 +6,13 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:25:37 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 16:31:53 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:47:56 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "get_next_line_bonus.h"
+#include <limits.h>
+#include <unistd.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024
@@ -111,7 +112,7 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	ssize_t		size;
-	static char	*stash[20];
+	static char	*stash[1024];
 
 	line = NULL;
 	size = 0;
