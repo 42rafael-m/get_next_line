@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:29:03 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 13:27:22 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:30:18 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@
 # include <stdint.h>
 # include "get_next_line.h"
 
-typedef struct s_fd
-{
-	char		*stash;
-	int			fd;
-	struct s_fd	*next;
-}	t_fd;
-t_fd	*ft_lstnew(int fd);
-void	ft_lstadd_back(t_fd **lst, t_fd *new);
+char	*get_next_line(int fd);
+void	*ft_calloc(size_t nmemb, size_t size);
+size_t	ft_strlen(const char *str);
+char	*ft_substr(char const *s, unsigned int stash, size_t len);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:25:37 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 13:24:38 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:31:53 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,38 +111,22 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	ssize_t		size;
-	static t_fd	*head;
-	t_fd		*current_fd;
+	static char	*stash[20];
 
-	current_fd = NULL;
 	line = NULL;
 	size = 0;
+	if (fd < 0)
+		return (NULL);
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!head)
-	{
-		current_fd = ft_lstnew(fd);
-		head = current_fd;
-		current_fd -> fd = fd;
-	}
-	current_fd = head;
-	while (fd != current_fd -> fd && current_fd -> next)
-		current_fd = current_fd -> next;
-	if (current_fd -> next == NULL)
-	{
-		current_fd -> next = ft_lstnew(fd);
-		if (!current_fd -> next)
-			return (NULL);
-		current_fd = current_fd -> next;
-	}
-	if (current_fd -> stash)
-		line = ft_stash(&(current_fd -> stash));
+	if (stash[fd])
+		line = ft_stash(&stash[fd]);
 	if (ft_strchr(line, '\n'))
 		return (line);
-	line = ft_read(&line, &(current_fd -> stash), &size, fd);
+	line = ft_read(&line, &stash[fd], &size, fd);
 	if (!line)
 		return (NULL);
 	while (!ft_strchr(line, '\n') && size)
-		line = ft_read(&line, &(current_fd -> stash), &size, fd);
+		line = ft_read(&line, &stash[fd], &size, fd);
 	return (line);
 }

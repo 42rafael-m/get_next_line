@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:35:50 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/12 14:06:49 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:09:33 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,7 @@
 # include <limits.h>
 # include <stddef.h>
 # include <stdint.h>
-/*
-typedef struct s_strings{
-    char    *stash;
-    char    *line;
-    char    *buffer;
-} t_strings;
-*/
+
 char	*get_next_line(int fd);
 void	*ft_calloc(size_t nmemb, size_t size);
 size_t	ft_strlen(const char *str);

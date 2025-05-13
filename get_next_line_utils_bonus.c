@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:57:59 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 13:34:41 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:08:59 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,17 +121,4 @@ char	*ft_strchr(const char *s, int c)
 	if ((unsigned char)c == *s)
 		return ((char *)s);
 	return (NULL);
-}
-
-t_fd	*ft_lstnew(int fd)
-{
-	t_fd	*new_node;
-
-	new_node = (t_fd *)malloc(sizeof(t_fd));
-	if (!new_node)
-		return (NULL);
-	new_node -> fd = fd;
-	new_node -> stash = NULL;
-	new_node -> next = NULL;
-	return (new_node);
 }
