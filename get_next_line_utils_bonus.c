@@ -6,39 +6,132 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:57:59 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/12 15:57:36 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:34:41 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
-t_fd  *ft_lstnew(int fd)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-        t_fd  *new_node;
+	void			*result;
+	unsigned char	*d;
+	size_t			i;
 
-        new_node = (t_fd *)malloc(sizeof(t_fd));
-        if (!new_node)
-                return (NULL);
-        new_node -> fd = fd;
-        new_node -> stash = NULL;
-        new_node -> next = NULL;
-        return (new_node);
+	i = 0;
+	if (nmemb == 0 || size == 0)
+	{
+		result = malloc(0);
+		return (result);
+	}
+	if (nmemb && size > SIZE_MAX / size)
+		return (NULL);
+	result = malloc(nmemb * size);
+	if (!result)
+		return (NULL);
+	d = (unsigned char *)result;
+	while (i < nmemb)
+	{
+		d[i] = '\0';
+		i++;
+	}
+	return (result);
 }
 
-void    ft_lstadd_back(t_fd **lst, t_fd *new)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-        t_fd  *last;
+	size_t	i;
+	size_t	lg;
 
-        if (!lst || !new)
-                return ;
-        if (*lst == NULL)
-                *lst = new;
-        else
-        {
-                last = *lst;
-                while (last -> next != NULL)
-                        last = last -> next;
-                last -> next = new;
-                
-        }
+	i = 0;
+	lg = ft_strlen(src);
+	if (!dest)
+		return (lg);
+	if (size == 0)
+		return (lg);
+	while (i < (size - 1) && src[i])
+	{
+		dest[i] = (char)src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (lg);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*result;
+	int		lg;
+	int		lgs1;
+	int		i;
+
+	i = 0;
+	lg = ft_strlen((char *)s1) + ft_strlen((char *)s2);
+	lgs1 = ft_strlen((char *)s1);
+	result = (char *)malloc((lg + 1) * sizeof(char));
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, (char *)s1, lgs1 + 1);
+	while (s2[i])
+	{
+		result[lgs1 + i] = s2[i];
+		i++;
+	}
+	result[lg] = '\0';
+	free (s1);
+	return (result);
+}
+
+char	*ft_substr(char const *s, unsigned int stash, size_t len)
+{
+	char	*result;
+	size_t	i;
+	size_t	lg;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	lg = ft_strlen((char *)s);
+	if (stash > lg)
+		return (result = ft_calloc(1, 1));
+	if (len > lg - stash)
+		len = lg - stash;
+	result = ft_calloc((len + 1), sizeof(char));
+	if (!result)
+		return (NULL);
+	while (i < len)
+	{
+		result[i] = s[stash + i];
+		i++;
+	}
+	return (result);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	if (!s)
+		return (NULL);
+	while (*s)
+	{
+		if ((unsigned char)c == *s)
+			return ((char *)s);
+		s++;
+	}
+	if ((unsigned char)c == *s)
+		return ((char *)s);
+	return (NULL);
+}
+
+t_fd	*ft_lstnew(int fd)
+{
+	t_fd	*new_node;
+
+	new_node = (t_fd *)malloc(sizeof(t_fd));
+	if (!new_node)
+		return (NULL);
+	new_node -> fd = fd;
+	new_node -> stash = NULL;
+	new_node -> next = NULL;
+	return (new_node);
 }

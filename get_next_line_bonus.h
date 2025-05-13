@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:29:03 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/12 15:50:58 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:27:22 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,15 @@
 # include <limits.h>
 # include <stddef.h>
 # include <stdint.h>
-#include "get_next_line.h"
+# include "get_next_line.h"
 
-typedef struct s_fd 
+typedef struct s_fd
 {
-    
-    char    *stash;
-    int fd;
-    struct s_fd    *next; 
-}       t_fd;
-
-t_fd    *ft_lstnew(int fd);
-void    ft_lstadd_back(t_fd **lst, t_fd *new);
+	char		*stash;
+	int			fd;
+	struct s_fd	*next;
+}	t_fd;
+t_fd	*ft_lstnew(int fd);
+void	ft_lstadd_back(t_fd **lst, t_fd *new);
 
 #endif
