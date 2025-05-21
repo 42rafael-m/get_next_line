@@ -6,7 +6,7 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:25:37 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 16:47:56 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:29:26 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	size = 0;
-	if (fd < 0)
+	if (fd < 0 || fd > 1024)
 		return (NULL);
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
