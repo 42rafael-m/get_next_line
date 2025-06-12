@@ -6,13 +6,11 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:25:37 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/21 15:29:26 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:45:05 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <limits.h>
-#include <unistd.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1024

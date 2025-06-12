@@ -6,12 +6,11 @@
 /*   By: rafael-m <rafael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:57:59 by rafael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 16:08:59 by rafael-m         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:39:43 by rafael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include "get_next_line.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
